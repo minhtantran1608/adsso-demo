@@ -7,14 +7,14 @@ const errorLoginUrl = "http://localhost:3005/login/error";
 
 router.get(
   "/azure/login",
-  passport.authenticate("azuread-openidconnect"),
+  passport.authenticate("azure_ad_oauth2"),
   () => {
     console.log("heelo");
   }
 );
 router.get(
   "/redirect",
-  passport.authenticate("azuread-openidconnect", {
+  passport.authenticate("azure_ad_oauth2", {
     failureRedirect: errorLoginUrl,
     successRedirect: successLoginUrl,
     failureMessage: "Cannot login to Google, please try again later!",

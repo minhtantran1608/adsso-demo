@@ -1,31 +1,28 @@
-const AzureAdOAuth2Strategy = require("passport-azure-ad").OIDCStrategy;
+const passport = require("passport");
+const AzureAdOAuth2Strategy = require("passport-azure-ad-oauth2").Strategy;
 const config = require("../config");
 var jwt = require("jwt-simple");
 passport.use(
   new AzureAdOAuth2Strategy(
     {
-      clientID: config.client_id,
-      clientSecret: config.client_secret,
+      clientID: config.azure_client_id,
+      clientSecret: config.azure_client_secret,
       callbackURL: config.redirect_url,
       resource: config.graph_api_endpoint,
-      tenant: config.tenant_id,
+      tenant: config.azure_tenant_id,
     },
-    function (iss, sub, profile, access_token, refresh_token, done) {
-      var waadProfile = profile || jwt.decode(params.id_token, "", true);
-
-      // User.findOrCreate({ id: waadProfile.upn }, function (err, user) {
-      //   done(err, user);
-      // });
-      done(err, waadProfile);
+    (accessToken, refreshToken, profile, done) => {
+      // User authentication logic goes here
+      return done(null, profile);
     }
   )
 );
-this.passport.serializeUser(function (user, done) {
+passport.serializeUser(function (user, done) {
   console.log("profile : ", user);
   done(null, user);
 });
 
-this.passport.deserializeUser(function (user, done) {
+passport.deserializeUser(function (user, done) {
   console.log("profile : ", user);
   done(null, user);
 });

@@ -12,8 +12,7 @@ var createError = require("http-errors");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const cookieSession = require("cookie-session");
-const passport = require("passport");
-
+require("./utils/passport");
 
 // var indexRouter = require("./routes/index");
 // var usersRouter = require("./routes/users");
@@ -22,19 +21,6 @@ var authRouter = require("./routes/auth");
 // initialize express
 var app = express();
 
-/**
- * Using express-session middleware for persistent user session. Be sure to
- * familiarize yourself with available options. Visit: https://www.npmjs.com/package/express-session
- */
-app.use(
-  cookieSession({
-    maxAge: 24 * 60 * 60 * 1000,
-    keys: [process.env.COOKIE_KEY],
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -46,6 +32,17 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+
+const passport = require("passport");
+app.use(
+  cookieSession({
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [process.env.COOKIE_KEY],
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 // app.use("/", indexRouter);
 // app.use("/users", usersRouter);
 app.use("/auth", authRouter);
