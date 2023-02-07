@@ -1,18 +1,13 @@
 import { LoginSuccess } from "./app/pages/login/LoginSuccess";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  // useHistory,
-} from "react-router-dom";
-import GoogleButton from "react-google-button";
+import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import { addToCart } from "./app/redux/reducers";
+import "./App.css";
 
 function App() {
   const cart = useSelector((state) => state.cart.cart);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleAddToCart = (item) => {
     dispatch(addToCart(item));
     console.log(cart);
@@ -49,6 +44,7 @@ function App() {
         if (newWindow.closed) {
           console.log("Yay we're authenticated");
           // fetchAuthUser();
+          navigate("/login/success");
           if (timer) clearInterval(timer);
         }
       }, 500);
@@ -56,46 +52,49 @@ function App() {
   };
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route
-            exact
-            path="/"
-            element={
-              <div>
-                Welcome Home!
-                <Link to="/login">Login</Link>
-              </div>
-            }
-          ></Route>
-          <Route
-            exact
-            path="/login"
-            element={
-              <div>
-                <GoogleButton onClick={redirectToGoogleSSO} />
-                <button
-                  onClick={() =>
-                    handleAddToCart({ name: "test", price: 20000 })
-                  }
-                >
-                  Add to cart
-                </button>
-              </div>
-            }
-          >
-            {/* <GoogleButton onClick={redirectToGoogleSSO} /> */}
-          </Route>
-          {/* <Route path="/welcome">Welcome Back {user && user.fullName}</Route> */}
-          <Route exact path="/login/success" element={<LoginSuccess />} />
-          <Route
-            path="/login/error"
-            element={<div>Error loging in. Please try again later!</div>}
-          >
-            {/* Error loging in. Please try again later! */}
-          </Route>
-        </Routes>
-      </Router>
+      {/* <Router> */}
+      <Routes>
+        <Route
+          exact
+          path="/"
+          element={
+            <div>
+              Welcome Home!
+              <Link to="/login">Login</Link>
+            </div>
+          }
+        ></Route>
+        <Route
+          exact
+          path="/login"
+          element={
+            <div>
+              <button
+                className="microsoft-button"
+                onClick={redirectToGoogleSSO}
+              >
+                Sign In With Microsoft
+              </button>
+              {/* <button
+                onClick={() => handleAddToCart({ name: "test", price: 20000 })}
+              >
+                Add to cart
+              </button> */}
+            </div>
+          }
+        >
+          {/* <GoogleButton onClick={redirectToGoogleSSO} /> */}
+        </Route>
+        {/* <Route path="/welcome">Welcome Back {user && user.fullName}</Route> */}
+        <Route exact path="/login/success" element={<LoginSuccess />} />
+        <Route
+          path="/login/error"
+          element={<div>Error loging in. Please try again later!</div>}
+        >
+          {/* Error loging in. Please try again later! */}
+        </Route>
+      </Routes>
+      {/* </Router> */}
     </div>
   );
 }
