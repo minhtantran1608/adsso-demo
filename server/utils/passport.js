@@ -10,11 +10,13 @@ passport.use(
       callbackURL: config.redirect_url,
       tenant: config.azure_tenant_id,
     },
-    (accessToken, refreshToken, profile, done) => {
+    (accessToken, refreshToken, params, profile, done) => {
       // User authentication logic goes here
-      var waadProfile = profile || jwt.decode(params.id_token, "", true);
-      console.log(waadProfile);
-      return done(null, profile);
+
+      const { name, email } = jwt.decode(params.id_token, "", true);
+      var waadProfile = jwt.decode(params.id_token, "", true);
+      console.log(name + ": " + email);
+      return done(null, waadProfile);
     }
   )
 );
