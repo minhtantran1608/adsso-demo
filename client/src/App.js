@@ -5,15 +5,18 @@ import {
   Routes,
   Route,
   Link,
-  useHistory,
+  // useHistory,
 } from "react-router-dom";
 import GoogleButton from "react-google-button";
+import { addToCart } from "./app/redux/reducers";
 
 function App() {
-  const user = useSelector((state) => state.user);
-  console.log(user);
+  const cart = useSelector((state) => state.cart.cart);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const handleAddToCart = (item) => {
+    dispatch(addToCart(item));
+    console.log(cart);
+  };
 
   // const fetchAuthUser = async () => {
   //   const response = await axios
@@ -71,6 +74,13 @@ function App() {
             element={
               <div>
                 <GoogleButton onClick={redirectToGoogleSSO} />
+                <button
+                  onClick={() =>
+                    handleAddToCart({ name: "test", price: 20000 })
+                  }
+                >
+                  Add to cart
+                </button>
               </div>
             }
           >
