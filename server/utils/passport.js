@@ -8,7 +8,6 @@ passport.use(
       clientID: config.azure_client_id,
       clientSecret: config.azure_client_secret,
       callbackURL: config.redirect_url,
-      resource: config.graph_api_endpoint,
       tenant: config.azure_tenant_id,
     },
     (accessToken, refreshToken, profile, done) => {
