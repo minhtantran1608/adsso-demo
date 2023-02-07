@@ -1,10 +1,5 @@
-/*
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License.
- */
-
 require("dotenv").config();
-
+const config = require("./config");
 var path = require("path");
 var express = require("express");
 var session = require("express-session");
@@ -14,27 +9,24 @@ var logger = require("morgan");
 var cors = require("cors");
 require("./utils/passport");
 
-
-var authRouter = require("./routes/auth");
-
 // initialize express
 var app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
-app.use(cors({ origin: "http://localhost:3005", credentials: true }));
+app.use(cors({ origin: config.url_fe, credentials: true }));
 app.use(logger("dev"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
-
 const passport = require("passport");
+
 const routes = require("./routes");
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: config.session_secret,
     resave: true,
     saveUninitialized: true,
   })

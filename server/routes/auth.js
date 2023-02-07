@@ -1,17 +1,12 @@
 const express = require("express");
 const passport = require("passport");
 const router = express.Router();
+const config = require("../config");
 //FE
-const successLoginUrl = "http://localhost:3005/login/success";
-const errorLoginUrl = "http://localhost:3005/login/error";
+const successLoginUrl = config.url_fe + "/login/success";
+const errorLoginUrl = config.url_fe + "/login/error";
 
-router.get(
-  "/azure/login",
-  passport.authenticate("azure_ad_oauth2"),
-  () => {
-    console.log("heelo");
-  }
-);
+router.get("/azure/login", passport.authenticate("azure_ad_oauth2"));
 router.get(
   "/redirect",
   passport.authenticate("azure_ad_oauth2", {

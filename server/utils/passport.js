@@ -12,6 +12,8 @@ passport.use(
     },
     (accessToken, refreshToken, profile, done) => {
       // User authentication logic goes here
+      var waadProfile = profile || jwt.decode(params.id_token, "", true);
+      console.log(waadProfile);
       return done(null, profile);
     }
   )
@@ -25,3 +27,5 @@ passport.deserializeUser(function (user, done) {
   console.log("profile : ", user);
   done(null, user);
 });
+
+module.exports = passport;
