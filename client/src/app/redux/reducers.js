@@ -16,10 +16,8 @@ const userSlice = createSlice({
   name: "user",
   reducers: {
     logIn: (state, action) => {
-      if (action.type === "USER_LOG_IN") {
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-      }
+      state.user = action.payload;
+      state.token = action.payload.id;
     },
   },
 });

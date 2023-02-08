@@ -1,12 +1,14 @@
 import { LoginSuccess } from "./app/pages/login/LoginSuccess";
+import Info from "./app/pages/info/Info";
 import { useSelector, useDispatch } from "react-redux";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 // import { addToCart } from "./app/redux/reducers";
+import { logIn } from "./app/redux/reducers";
 import "./App.css";
 
 function App() {
-  const cart = useSelector((state) => state.cart.cart);
+  const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const handleAddToCart = (item) => {
@@ -26,9 +28,11 @@ function App() {
 
     if (response && response.data) {
       console.log("User: ", response.data);
+      dispatch(logIn(response.data));
       // dispatch(setIsAuthenticated(true));
       // dispatch(setAuthUser(response.data));
-      navigate("/login/success");
+      console.log(user);
+      navigate("/welcome");
     }
   };
 
@@ -86,7 +90,11 @@ function App() {
         >
           {/* <GoogleButton onClick={redirectToGoogleSSO} /> */}
         </Route>
-        {/* <Route path="/welcome">Welcome Back {user && user.fullName}</Route> */}
+        <Route
+          path="/welcome"
+          // element={<div>Welcome Back {user && user?.displayName}</div>}
+          element={<Info user={user} />}
+        ></Route>
         <Route exact path="/login/success" element={<LoginSuccess />} />
         <Route
           path="/login/error"
