@@ -9,6 +9,7 @@ passport.use(
       clientSecret: config.azure_client_secret,
       callbackURL: config.redirect_url,
       tenant: config.azure_tenant_id,
+      resource: config.graph_api_endpoint,
     },
     (accessToken, refreshToken, params, profile, done) => {
       // User authentication logic goes here
@@ -16,6 +17,7 @@ passport.use(
       const { name, email } = jwt.decode(params.id_token, "", true);
       var waadProfile = jwt.decode(params.id_token, "", true);
       console.log(name + ": " + email);
+      waadProfile["accessToken"] = accessToken;
       return done(null, waadProfile);
     }
   )

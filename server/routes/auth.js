@@ -15,7 +15,6 @@ router.get(
     failureMessage: "Cannot login to Google, please try again later!",
   }),
   (req, res) => {
-    console.log("User: ", req.user);
     res.send("Thank you for signing in!");
   }
 );
