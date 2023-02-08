@@ -1,35 +1,36 @@
 import { LoginSuccess } from "./app/pages/login/LoginSuccess";
 import { useSelector, useDispatch } from "react-redux";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
-import { addToCart } from "./app/redux/reducers";
+import axios from "axios";
+// import { addToCart } from "./app/redux/reducers";
 import "./App.css";
 
 function App() {
   const cart = useSelector((state) => state.cart.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleAddToCart = (item) => {
-    dispatch(addToCart(item));
-    console.log(cart);
-  };
-
-  // const fetchAuthUser = async () => {
-  //   const response = await axios
-  //     .get("http://localhost:5000/api/v1/auth/user", { withCredentials: true })
-  //     .catch((err) => {
-  //       console.log("Not properly authenticated");
-  //       dispatch(setIsAuthenticated(false));
-  //       dispatch(setAuthUser(null));
-  //       history.push("/login/error");
-  //     });
-
-  //   if (response && response.data) {
-  //     console.log("User: ", response.data);
-  //     dispatch(setIsAuthenticated(true));
-  //     dispatch(setAuthUser(response.data));
-  //     history.push("/welcome");
-  //   }
+  // const handleAddToCart = (item) => {
+  //   dispatch(addToCart(item));
+  //   console.log(cart);
   // };
+
+  const fetchAuthUser = async () => {
+    const response = await axios
+      .get("http://localhost:3000/user", { withCredentials: true })
+      .catch((err) => {
+        console.log("Not properly authenticated");
+        // dispatch(setIsAuthenticated(false));
+        // dispatch(setAuthUser(null));
+        navigate("/login/error");
+      });
+
+    if (response && response.data) {
+      console.log("User: ", response.data);
+      // dispatch(setIsAuthenticated(true));
+      // dispatch(setAuthUser(response.data));
+      navigate("/login/success");
+    }
+  };
 
   const redirectToGoogleSSO = async () => {
     const googleLoginURL = "http://localhost:3000/auth/azure/login";
@@ -43,8 +44,8 @@ function App() {
       const timer = setInterval(() => {
         if (newWindow.closed) {
           console.log("Yay we're authenticated");
-          // fetchAuthUser();
-          navigate("/login/success");
+          fetchAuthUser();
+          // navigate("/login/success");
           if (timer) clearInterval(timer);
         }
       }, 500);
