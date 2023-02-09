@@ -10,7 +10,6 @@ router.get("/me", isAuthentication, async function (req, res) {
       `${config.graph_api_endpoint}/v1.0/me`,
       req.user.accessToken
     );
-    log
     res.json(graphResponse);
   } catch (error) {
     console.log(error);

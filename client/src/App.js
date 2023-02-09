@@ -18,7 +18,7 @@ function App() {
 
   const fetchAuthUser = async () => {
     const response = await axios
-      .get("http://localhost:3000/user", { withCredentials: true })
+      .get("http://localhost:3000/user/me", { withCredentials: true })
       .catch((err) => {
         console.log("Not properly authenticated");
         // dispatch(setIsAuthenticated(false));
