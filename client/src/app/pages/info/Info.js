@@ -11,17 +11,42 @@ function Info({ user }) {
         withCredentials: true,
       });
       console.log(response);
-      setUsers(response.data || []);
+      setUsers(response.data.value || []);
     } catch (e) {
       console.log(e);
     }
+  };
+
+  const renderUsers = () => {
+    return (
+      <div className="users-container">
+        {users.map((user) => {
+          return (
+            <div className="info-block">
+              <div className="info-field">
+                <p className="label">First Name:</p>
+                <p className="value">{user.givenName}</p>
+              </div>
+              <div className="info-field">
+                <p className="label">Last Name:</p>
+                <p className="value">{user.surname}</p>
+              </div>
+              <div className="info-field">
+                <p className="label">Email:</p>
+                <p className="value">{user.mail}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    );
   };
 
   return (
     <div class="info-container">
       <h1>Welcome Back {user.displayName}</h1>
       <h2>User Information</h2>
-      <div class="info-block">
+      <div className="info-block">
         <div className="info-field">
           <p className="label">First Name:</p>
           <p className="value">{user.givenName}</p>
@@ -35,9 +60,16 @@ function Info({ user }) {
           <p className="value">{user.mail}</p>
         </div>
       </div>
-      <button className="get-button" onClick={handleGetUsers}>
-        Get List User
-      </button>
+      {users.length <= 0 ? (
+        <button className="get-button" onClick={handleGetUsers}>
+          Get List User
+        </button>
+      ) : (
+        <button className="hide-button" onClick={() => setUsers([])}>
+          Hide User
+        </button>
+      )}
+      {users.length > 0 && renderUsers()}
     </div>
   );
 }

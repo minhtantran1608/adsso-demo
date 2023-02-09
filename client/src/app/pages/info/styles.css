@@ -2,6 +2,7 @@
     width: 500px;
     margin: 0 auto;
     text-align: center;
+    margin-top: 80px;
   }
   
   .info-block {
@@ -47,8 +48,26 @@
     color: white;
   }
 
+  .hide-button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: gray;
+    border: 1px solid #000;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    color: black;
+  }
+
   .info-field {
     width: 45%;
     display: flex;
     align-items: center;
+  }
+
+  .users-container {
+    height: 500px;
+    overflow-y: scroll;
   }
